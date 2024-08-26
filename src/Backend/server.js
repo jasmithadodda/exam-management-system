@@ -16,10 +16,7 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/exam-management', {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-})
+mongoose.connect('mongodb://localhost:27017/exam-management', {})
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(`MongoDB connection error: ${err}`));
 

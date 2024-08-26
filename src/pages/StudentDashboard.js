@@ -1,11 +1,12 @@
-// src/pages/StudentDashboard.js
 import React from 'react';
+import '../Styles/Sdashboard.css';
 
 function StudentDashboard() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Student Dashboard</h1>
-      <p>Welcome to the Student Dashboard!</p>
+    <div className="studentdashboard-container">
+      <header className="header-container">
+        <h1>Student Dashboard</h1>
+      </header>
     </div>
   );
 }

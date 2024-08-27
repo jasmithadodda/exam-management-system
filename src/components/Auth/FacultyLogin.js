@@ -1,16 +1,35 @@
-// src/components/Auth/FacultyLogin.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function FacultyLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState(''); // State to manage response messages
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('Faculty Logged In:', { email, password });
-    navigate('/faculty-dashboard');
+    try {
+      const response = await fetch('http://localhost:5000/faculty-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Faculty Logged In:', { email, password });
+        navigate('/faculty-dashboard');
+      } else {
+        setMessage(data.error || 'Login failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setMessage('Error logging in. Please try again later.');
+    }
   };
 
   const goToRegister = () => {
@@ -94,6 +113,7 @@ function FacultyLogin() {
             Login
           </button>
         </form>
+        {message && <p style={{ color: 'red' }}>{message}</p>} {/* Display error message */}
         <p>
           Not registered yet?{' '}
           <span onClick={goToRegister} style={{ color: 'blue', cursor: 'pointer' }}>

@@ -1,16 +1,34 @@
-// src/components/Auth/StudentLogin.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function StudentLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log('Student Logged In:', { email, password });
-    navigate('/student-dashboard');
+    
+    try {
+      const response = await fetch('http://localhost:5000/student-login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage('Login successful');
+        navigate('/student-dashboard');
+      } else {
+        setMessage(data.error || 'Login failed');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setMessage('Error logging in. Please try again later.');
+    }
   };
 
   const goToRegister = () => {
@@ -97,6 +115,7 @@ function StudentLogin() {
             Login
           </button>
         </form>
+        {message && <p>{message}</p>}
         <p>
           Not registered yet?{' '}
           <span onClick={goToRegister} style={linkStyle}>

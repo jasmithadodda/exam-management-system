@@ -97,6 +97,53 @@ app.post('/faculty-register', async (req, res) => {
   }
 });
 
+// POST route for student login
+app.post('/student-login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Check if the student exists
+    const student = await Student.findOne({ email });
+    if (!student) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    // Check if the password matches
+    if (student.password !== password) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    res.status(200).json({ message: 'Login successful' });
+  } catch (error) {
+    console.error('Error logging in student:', error);
+    res.status(500).json({ error: 'Error logging in. Please try again later.' });
+  }
+});
+
+// POST route for faculty login
+app.post('/faculty-login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+  
+      // Check if the faculty exists
+      const faculty = await Faculty.findOne({ email });
+      if (!faculty) {
+        return res.status(401).json({ error: 'Invalid email or password' });
+      }
+  
+      // Check if the password matches
+      if (faculty.password !== password) {
+        return res.status(401).json({ error: 'Invalid email or password' });
+      }
+  
+      res.status(200).json({ message: 'Login successful' });
+    } catch (error) {
+      console.error('Error logging in faculty:', error);
+      res.status(500).json({ error: 'Error logging in. Please try again later.' });
+    }
+  });
+  
+
 // POST route for creating an assignment
 app.post('/create-assignment', async (req, res) => {
   try {

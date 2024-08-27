@@ -1,18 +1,80 @@
+/* StudentDashboard.css */
+
+/* Container styling for the entire dashboard */
 .studentdashboard-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .header-container {
-    background-color: #c48acd; /* Blue header */
-    color: white;
-    padding: 20px;
-    text-align: center;
-    height: 70px;
-  }
-  
-  .header-container h1 {
-    margin: 0;
-    font-size: 24px;
-  }
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Header styling for the dashboard */
+.header-container {
+  background-color: #ac6eb0;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Main content area for the dashboard */
+.studentdashboard-main-content {
+  display: flex;
+  flex: 1;
+}
+
+/* Sidebar styling for the dashboard */
+.studentdashboard-sidebar {
+  width: 200px;
+  background-color: #f4f4f4;
+  padding: 1rem;
+}
+
+/* List styling within the sidebar */
+.sidebar-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Individual item styling within the sidebar list */
+.sidebar-item {
+  padding: 10px 0;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Hover effect for sidebar items */
+.sidebar-item:hover {
+  background-color: #ddd;
+}
+
+/* Main content area styling for different sections */
+.studentdashboard-content {
+  flex: 1;
+  padding: 1rem;
+}
+
+/* Form group styling for consistent form layout */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+/* Input field styling for user inputs */
+.form-input {
+  padding: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Button styling for form submissions */
+.form-button {
+  padding: 0.5rem 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Hover effect for buttons */
+.form-button:hover {
+  background-color: #45a049;
+}

@@ -25,7 +25,7 @@ function StudentRegister() {
       if (response.ok) {
         setMessage('Student registered successfully!');
         // Redirect to student login page after a short delay
-        setTimeout(() => navigate('/student-login'), 2000); // Delay to show success message
+        setTimeout(() => navigate('/student-login'), 1000); // Delay to show success message
       } else {
         setMessage(data.error || 'Error registering student.');
       }

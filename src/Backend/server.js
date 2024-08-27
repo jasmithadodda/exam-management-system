@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
+const multer = require('multer'); // Add multer for file uploads
 
 const app = express();
 
@@ -38,12 +39,31 @@ const facultySchema = new mongoose.Schema({
 
 const Faculty = mongoose.model('Faculty', facultySchema);
 
+// Define Assignment schema and model
+const assignmentSchema = new mongoose.Schema({
+  question: { type: String, required: true },
+  deadline: { type: Date, required: true },
+});
+
+const Assignment = mongoose.model('Assignment', assignmentSchema);
+
+// Configure Multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'C:/Users/jasmitha.dodda/Desktop/react--projects/submissions'); // Path to save uploaded files
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // Append timestamp to filename
+  }
+});
+
+const upload = multer({ storage: storage });
+
 // POST route for student registration
 app.post('/student-register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Check if the student already exists
     const existingStudent = await Student.findOne({ email });
     if (existingStudent) {
       return res.status(400).json({ error: 'Student already registered' });
@@ -63,7 +83,6 @@ app.post('/faculty-register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Check if the faculty already exists
     const existingFaculty = await Faculty.findOne({ email });
     if (existingFaculty) {
       return res.status(400).json({ error: 'Faculty already registered' });
@@ -78,98 +97,84 @@ app.post('/faculty-register', async (req, res) => {
   }
 });
 
+// POST route for creating an assignment
+app.post('/create-assignment', async (req, res) => {
+  try {
+    const { question, deadline } = req.body;
 
-// Add this below the existing Faculty model definition in server.js
+    const newAssignment = new Assignment({ question, deadline });
+    await newAssignment.save();
 
-// Define Assignment schema and model
-const assignmentSchema = new mongoose.Schema({
-    question: { type: String, required: true },
-    deadline: { type: Date, required: true },
-  });
-  
-const Assignment = mongoose.model('Assignment', assignmentSchema);
-  
-  // POST route for creating an assignment
-  app.post('/create-assignment', async (req, res) => {
-    try {
-      const { question, deadline } = req.body;
-  
-      // Create a new assignment
-      const newAssignment = new Assignment({ question, deadline });
-  
-      // Save to the database
-      await newAssignment.save();
-  
-      res.status(201).json({ message: 'Assignment created successfully' });
-    } catch (error) {
-      console.error('Error creating assignment:', error);
-      res.status(500).json({ error: 'Error creating assignment. Please try again later.' });
-    }
-  });
-
-  // Below the existing POST route for creating an assignment
+    res.status(201).json({ message: 'Assignment created successfully' });
+  } catch (error) {
+    console.error('Error creating assignment:', error);
+    res.status(500).json({ error: 'Error creating assignment. Please try again later.' });
+  }
+});
 
 // GET route to fetch all assignments
 app.get('/assignments', async (req, res) => {
-    try {
-      const assignments = await Assignment.find({});
-      res.status(200).json(assignments);
-    } catch (error) {
-      console.error('Error fetching assignments:', error);
-      res.status(500).json({ error: 'Error fetching assignments. Please try again later.' });
-    }
-  });
-  
+  try {
+    const assignments = await Assignment.find({});
+    res.status(200).json(assignments);
+  } catch (error) {
+    console.error('Error fetching assignments:', error);
+    res.status(500).json({ error: 'Error fetching assignments. Please try again later.' });
+  }
+});
+
 // PUT route to update an assignment by ID
 app.put('/assignments/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { question, deadline } = req.body;
-  
-      // Validate inputs
-      if (!id || !question || !deadline) {
-        return res.status(400).json({ error: 'Missing required fields' });
-      }
-  
-      // Find the assignment by ID and update it
-      const updatedAssignment = await Assignment.findByIdAndUpdate(
-        id,
-        { question, deadline },
-        { new: true }
-      );
-  
-      if (!updatedAssignment) {
-        return res.status(404).json({ error: 'Assignment not found' });
-      }
-  
-      res.status(200).json({ message: 'Assignment updated successfully', assignment: updatedAssignment });
-    } catch (error) {
-      console.error('Error updating assignment:', error);
-      res.status(500).json({ error: 'Error updating assignment. Please try again later.' });
+  try {
+    const { id } = req.params;
+    const { question, deadline } = req.body;
+
+    if (!id || !question || !deadline) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
-  });
-  
-  
-  // DELETE route to delete an assignment by ID
-  app.delete('/assignments/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
-  
-      // Find the assignment by ID and delete it
-      const deletedAssignment = await Assignment.findByIdAndDelete(id);
-  
-      if (!deletedAssignment) {
-        return res.status(404).json({ error: 'Assignment not found' });
-      }
-  
-      res.status(200).json({ message: 'Assignment deleted successfully' });
-    } catch (error) {
-      console.error('Error deleting assignment:', error);
-      res.status(500).json({ error: 'Error deleting assignment. Please try again later.' });
+
+    const updatedAssignment = await Assignment.findByIdAndUpdate(
+      id,
+      { question, deadline },
+      { new: true }
+    );
+
+    if (!updatedAssignment) {
+      return res.status(404).json({ error: 'Assignment not found' });
     }
-  });
-  
-  
+
+    res.status(200).json({ message: 'Assignment updated successfully', assignment: updatedAssignment });
+  } catch (error) {
+    console.error('Error updating assignment:', error);
+    res.status(500).json({ error: 'Error updating assignment. Please try again later.' });
+  }
+});
+
+// DELETE route to delete an assignment by ID
+app.delete('/assignments/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedAssignment = await Assignment.findByIdAndDelete(id);
+
+    if (!deletedAssignment) {
+      return res.status(404).json({ error: 'Assignment not found' });
+    }
+
+    res.status(200).json({ message: 'Assignment deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting assignment:', error);
+    res.status(500).json({ error: 'Error deleting assignment. Please try again later.' });
+  }
+});
+
+// POST route to handle file uploads
+app.post('/upload-assignment', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+  res.json({ message: 'File uploaded successfully!' });
+});
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '../../build')));

@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../Styles/Sdashboard.css';
+import '../Styles/Sdashboard.css'; // Import the CSS file
 
 function StudentDashboard() {
   const [activeTab, setActiveTab] = useState(''); // State to manage active tab
   const [assignments, setAssignments] = useState([]); // State to store fetched assignments
-  const [submission, setSubmission] = useState(''); // State for assignment submission
+  const [selectedFile, setSelectedFile] = useState(null); // State to store selected file
   const [message, setMessage] = useState(''); // State to manage response messages
 
-  const navigate = useNavigate(); // Initialize navigate for redirection
-
+  // Fetch assignments when the component mounts or when the tab is changed
   useEffect(() => {
     if (activeTab === 'viewAssignments') {
-      fetchAssignments(); // Fetch assignments when "View Assignments" is active
+      fetchAssignments();
     }
   }, [activeTab]);
 
+  // Function to fetch assignments from the server
   const fetchAssignments = async () => {
     try {
       const response = await fetch('http://localhost:5000/assignments');
@@ -23,42 +22,53 @@ function StudentDashboard() {
       if (response.ok) {
         setAssignments(data);
       } else {
-        console.error(data.error);
+        console.error('Failed to fetch assignments:', data.error);
       }
     } catch (error) {
       console.error('Error fetching assignments:', error);
     }
   };
 
-  const handleAssignmentSubmit = async (e) => {
+  // Handle file selection
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]); // Update state with selected file
+  };
+
+  // Handle file upload
+  const handleFileUpload = async (e) => {
     e.preventDefault();
+    if (!selectedFile) {
+      setMessage('Please select a file first.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
 
     try {
-      const response = await fetch('http://localhost:5000/submit-assignment', {
+      const response = await fetch('http://localhost:5000/upload-assignment', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ submission }),
+        body: formData,
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        setMessage('Assignment submitted successfully!');
-        setSubmission(''); // Clear submission form after submission
+        setMessage('File uploaded successfully!');
+        setSelectedFile(null); // Reset file input
       } else {
-        setMessage(data.error || 'Error submitting assignment.');
+        setMessage(data.error || 'Error uploading file.');
       }
     } catch (error) {
-      console.error('Error submitting assignment:', error);
-      setMessage('Error submitting assignment. Please try again later.');
+      console.error('Error uploading file:', error);
+      setMessage('Error uploading file. Please try again later.');
     }
   };
 
+  // Handle logout
   const handleLogout = () => {
-    localStorage.removeItem('username'); // Remove username from localStorage
-    navigate('/'); // Redirect to home page
+    setActiveTab(''); // Reset active tab
+    window.location.href = '/'; // Redirect to home page after logout
   };
 
   return (
@@ -77,23 +87,19 @@ function StudentDashboard() {
             </li>
             <li 
               className="sidebar-item"
-              onClick={() => setActiveTab('submitAssignment')}
+              onClick={() => setActiveTab('uploadAssignment')}
             >
-              Submit Assignment
+              Upload Assignment
             </li>
-            <li 
-              className="sidebar-item"
-              onClick={handleLogout} // Logout functionality
-              style={{ color: 'red', cursor: 'pointer' }} // Optional styling for logout
-            >
+            <li className="sidebar-item" onClick={handleLogout}>
               Logout
             </li>
           </ul>
         </aside>
-        <section className="studentdashboard-content">
+        <main className="studentdashboard-content">
           {activeTab === 'viewAssignments' && (
-            <div>
-              <h2>View Assignments</h2>
+            <div className="assignments">
+              <h2>Assignments</h2>
               {assignments.length === 0 ? (
                 <p>No assignments available.</p>
               ) : (
@@ -108,26 +114,20 @@ function StudentDashboard() {
               )}
             </div>
           )}
-
-          {activeTab === 'submitAssignment' && (
-            <div>
-              <h2>Submit Assignment</h2>
-              <form onSubmit={handleAssignmentSubmit}>
-                <div className="form-group">
-                  <label>Submission:</label>
-                  <textarea 
-                    value={submission} 
-                    onChange={(e) => setSubmission(e.target.value)} 
-                    required 
-                    className="form-input"
-                  />
-                </div>
-                <button type="submit" className="form-button">Submit</button>
+          {activeTab === 'uploadAssignment' && (
+            <div className="upload-assignment">
+              <h2>Upload Assignment</h2>
+              <form onSubmit={handleFileUpload}>
+                <input 
+                  type="file" 
+                  onChange={handleFileChange} 
+                />
+                <button type="submit">Upload</button>
               </form>
-              {message && <p>{message}</p>} {/* Display response messages */}
+              {message && <p>{message}</p>}
             </div>
           )}
-        </section>
+        </main>
       </div>
     </div>
   );

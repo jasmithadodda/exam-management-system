@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const multer = require('multer'); // Add multer for file uploads
+const fs = require('fs');
 
 const app = express();
 
@@ -222,6 +223,29 @@ app.post('/upload-assignment', upload.single('file'), (req, res) => {
   }
   res.json({ message: 'File uploaded successfully!' });
 });
+
+// GET route to fetch all uploaded files
+app.get('/submissions', (req, res) => {
+    const submissionsDir = 'C:/Users/jasmitha.dodda/Desktop/react--projects/submissions';
+    fs.readdir(submissionsDir, (err, files) => {
+      if (err) {
+        return res.status(500).json({ error: 'Error fetching submissions' });
+      }
+      res.status(200).json(files);
+    });
+  });
+  
+  // GET route to download a file
+  app.get('/download/:filename', (req, res) => {
+    const { filename } = req.params;
+    const filePath = path.join('C:/Users/jasmitha.dodda/Desktop/react--projects/submissions', filename);
+    res.download(filePath, (err) => {
+      if (err) {
+        console.error('Error downloading file:', err);
+        res.status(500).json({ error: 'Error downloading file' });
+      }
+    });
+  });
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '../../build')));

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
-import '../Styles/Fdashboard.css'; // Import the CSS file
+import { useNavigate } from 'react-router-dom';
+import '../Styles/Fdashboard.css';
 
 function FacultyDashboard() {
   const [activeTab, setActiveTab] = useState(''); // State to manage active tab
   const [showCreateForm, setShowCreateForm] = useState(false); // State to control form visibility
   const [assignments, setAssignments] = useState([]); // State to store fetched assignments
   const [editingAssignment, setEditingAssignment] = useState(null); // State to manage editing assignment
-  // State for the Create Assignment form
+  const [submissions, setSubmissions] = useState([]); // State to store submissions
   const [question, setQuestion] = useState('');
   const [deadline, setDeadline] = useState('');
   const [message, setMessage] = useState(''); // State to manage response messages
@@ -17,8 +17,11 @@ function FacultyDashboard() {
   useEffect(() => {
     if (activeTab === 'viewAssignments') {
       fetchAssignments(); // Fetch assignments when "View Assignments" is active
+    } else if (activeTab === 'submissions') {
+      fetchSubmissions(); // Fetch submissions when "Submissions" tab is active
     }
   }, [activeTab]);
+
   const fetchAssignments = async () => {
     try {
       const response = await fetch('http://localhost:5000/assignments');
@@ -32,6 +35,21 @@ function FacultyDashboard() {
       console.error('Error fetching assignments:', error);
     }
   };
+
+  const fetchSubmissions = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/submissions');
+      const data = await response.json();
+      if (response.ok) {
+        setSubmissions(data);
+      } else {
+        console.error(data.error);
+      }
+    } catch (error) {
+      console.error('Error fetching submissions:', error);
+    }
+  };
+
   const handleAssignmentSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -58,14 +76,16 @@ function FacultyDashboard() {
       setMessage('Error creating assignment. Please try again later.');
     }
   };
+
   const handleEditAssignment = (assignment) => {
     setEditingAssignment(assignment);
     setQuestion(assignment.question);
     setDeadline(assignment.deadline.split('T')[0]); // Format date for input
   };
+
   const handleUpdateAssignment = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch(`http://localhost:5000/assignments/${editingAssignment._id}`, {
         method: 'PUT',
@@ -74,9 +94,9 @@ function FacultyDashboard() {
         },
         body: JSON.stringify({ question, deadline }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         setMessage('Assignment updated successfully!');
         setEditingAssignment(null);
@@ -91,7 +111,7 @@ function FacultyDashboard() {
       setMessage('Error updating assignment. Please try again later.');
     }
   };
-  
+
   const handleDeleteAssignment = async (id) => {
     try {
       const response = await fetch(`http://localhost:5000/assignments/${id}`, {
@@ -107,6 +127,29 @@ function FacultyDashboard() {
     } catch (error) {
       console.error('Error deleting assignment:', error);
       setMessage('Error deleting assignment. Please try again later.');
+    }
+  };
+
+  const handleDownloadFile = async (filename) => {
+    try {
+      const response = await fetch(`http://localhost:5000/download/${filename}`);
+      if (response.ok) {
+        // Create a link element to trigger the file download
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      } else {
+        console.error('Error downloading file.');
+        setMessage('Error downloading file.');
+      }
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      setMessage('Error downloading file. Please try again later.');
     }
   };
 
@@ -137,7 +180,10 @@ function FacultyDashboard() {
             >
               View Assignments
             </li>
-            <li className="sidebar-item">
+            <li 
+              className="sidebar-item"
+              onClick={() => setActiveTab('submissions')} // Added onClick to set active tab
+            >
               Submissions
             </li>
             {/* Logout Option */}
@@ -239,9 +285,27 @@ function FacultyDashboard() {
               )}
             </div>
           )}
+          {activeTab === 'submissions' && (
+            <div>
+              <h2>Submissions</h2>
+              {submissions.length === 0 ? (
+                <p>No submissions available.</p>
+              ) : (
+                <ul>
+                  {submissions.map((filename, index) => (
+                    <li key={index}>
+                      <p>{filename}</p>
+                      <button onClick={() => handleDownloadFile(filename)}>Download</button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
         </section>
       </div>
     </div>
   );
 }
+
 export default FacultyDashboard;

@@ -45,7 +45,8 @@ function FacultyLogin() {
     minHeight: '100vh',
     backgroundColor: '#f0f0f0', // Light background color
     textAlign: 'center',
-    padding: '20px'
+    padding: '20px',
+    
   };
 
   const formStyle = {

@@ -20,7 +20,9 @@ function StudentDashboard() {
       const response = await fetch('http://localhost:5000/assignments');
       const data = await response.json();
       if (response.ok) {
-        setAssignments(data);
+        // Sort assignments by deadline
+        const sortedAssignments = data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+        setAssignments(sortedAssignments);
       } else {
         console.error('Failed to fetch assignments:', data.error);
       }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import '../Styles/Fdashboard.css'; // Import the CSS file
 
 function FacultyDashboard() {
@@ -12,8 +11,6 @@ function FacultyDashboard() {
   const [question, setQuestion] = useState('');
   const [deadline, setDeadline] = useState('');
   const [message, setMessage] = useState(''); // State to manage response messages
-
-  const navigate = useNavigate(); // Initialize navigate for redirection
 
   useEffect(() => {
     if (activeTab === 'viewAssignments') {
@@ -121,13 +118,6 @@ function FacultyDashboard() {
     }
   };
 
-  const handleLogout = () => {
-    // Clear session storage or any user-related data here
-    // localStorage.removeItem('token'); // Example if using tokens
-    setActiveTab(''); // Reset active tab
-    navigate('/'); // Redirect to home page
-  };
-
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
@@ -150,14 +140,6 @@ function FacultyDashboard() {
             </li>
             <li className="sidebar-item">
               Submissions
-            </li>
-            {/* Logout Option */}
-            <li 
-              className="sidebar-item"
-              onClick={handleLogout} // Logout handler
-              style={{ color: 'red', cursor: 'pointer' }} // Optional styling for logout
-            >
-              Logout
             </li>
           </ul>
         </aside>

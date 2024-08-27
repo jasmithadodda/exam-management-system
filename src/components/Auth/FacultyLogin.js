@@ -46,7 +46,6 @@ function FacultyLogin() {
     backgroundColor: '#f0f0f0', // Light background color
     textAlign: 'center',
     padding: '20px',
-    
   };
 
   const formStyle = {
@@ -55,7 +54,7 @@ function FacultyLogin() {
     borderRadius: '8px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     maxWidth: '400px',
-    width: '100%'
+    width: '100%',
   };
 
   const inputStyle = {

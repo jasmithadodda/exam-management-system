@@ -2,19 +2,24 @@ import React, { useState, useEffect } from 'react';
 import '../Styles/Fdashboard.css'; // Import the CSS file
 
 function FacultyDashboard() {
-  const [activeTab, setActiveTab] = useState(''); // State to manage active tab
-  const [showCreateForm, setShowCreateForm] = useState(false); // State to control form visibility
-  const [assignments, setAssignments] = useState([]); // State to store fetched assignments
-  const [editingAssignment, setEditingAssignment] = useState(null); // State to manage editing assignment
+  const [activeTab, setActiveTab] = useState('');
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [assignments, setAssignments] = useState([]);
+  const [editingAssignment, setEditingAssignment] = useState(null);
 
-  // State for the Create Assignment form
+  // State for Create Assignment form
   const [question, setQuestion] = useState('');
   const [deadline, setDeadline] = useState('');
-  const [message, setMessage] = useState(''); // State to manage response messages
+  const [message, setMessage] = useState('');
+
+  // State for submissions
+  const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
     if (activeTab === 'viewAssignments') {
-      fetchAssignments(); // Fetch assignments when "View Assignments" is active
+      fetchAssignments();
+    } else if (activeTab === 'submissions') {
+      fetchSubmissions();
     }
   }, [activeTab]);
 
@@ -29,6 +34,20 @@ function FacultyDashboard() {
       }
     } catch (error) {
       console.error('Error fetching assignments:', error);
+    }
+  };
+
+  const fetchSubmissions = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/submissions');
+      const data = await response.json();
+      if (response.ok) {
+        setSubmissions(data);
+      } else {
+        console.error(data.error);
+      }
+    } catch (error) {
+      console.error('Error fetching submissions:', error);
     }
   };
 
@@ -48,11 +67,10 @@ function FacultyDashboard() {
 
       if (response.ok) {
         setMessage('Assignment created successfully!');
-        // Clear form after submission
         setQuestion('');
         setDeadline('');
-        setShowCreateForm(false); // Hide form after submission
-        fetchAssignments(); // Refresh assignments list
+        setShowCreateForm(false);
+        fetchAssignments();
       } else {
         setMessage(data.error || 'Error creating assignment.');
       }
@@ -65,12 +83,12 @@ function FacultyDashboard() {
   const handleEditAssignment = (assignment) => {
     setEditingAssignment(assignment);
     setQuestion(assignment.question);
-    setDeadline(assignment.deadline.split('T')[0]); // Format date for input
+    setDeadline(assignment.deadline.split('T')[0]);
   };
 
   const handleUpdateAssignment = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch(`http://localhost:5000/assignments/${editingAssignment._id}`, {
         method: 'PUT',
@@ -79,15 +97,15 @@ function FacultyDashboard() {
         },
         body: JSON.stringify({ question, deadline }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         setMessage('Assignment updated successfully!');
         setEditingAssignment(null);
         setQuestion('');
         setDeadline('');
-        fetchAssignments(); // Refresh assignments list
+        fetchAssignments();
       } else {
         setMessage(data.error || 'Error updating assignment.');
       }
@@ -96,7 +114,6 @@ function FacultyDashboard() {
       setMessage('Error updating assignment. Please try again later.');
     }
   };
-  
 
   const handleDeleteAssignment = async (id) => {
     try {
@@ -108,7 +125,7 @@ function FacultyDashboard() {
 
       if (response.ok) {
         setMessage('Assignment deleted successfully!');
-        fetchAssignments(); // Refresh assignments list
+        fetchAssignments();
       } else {
         setMessage(data.error || 'Error deleting assignment.');
       }
@@ -116,6 +133,10 @@ function FacultyDashboard() {
       console.error('Error deleting assignment:', error);
       setMessage('Error deleting assignment. Please try again later.');
     }
+  };
+
+  const handleLogout = () => {
+    window.location.href = '/';
   };
 
   return (
@@ -126,20 +147,26 @@ function FacultyDashboard() {
       <div className="dashboard-main-content">
         <aside className="dashboard-sidebar">
           <ul className="sidebar-list">
-            <li 
-              className="sidebar-item"
+            <li
+              className={`sidebar-item ${activeTab === 'manageAssignments' ? 'active' : ''}`}
               onClick={() => setActiveTab('manageAssignments')}
             >
               Manage Assignments
             </li>
-            <li 
-              className="sidebar-item"
+            <li
+              className={`sidebar-item ${activeTab === 'viewAssignments' ? 'active' : ''}`}
               onClick={() => setActiveTab('viewAssignments')}
             >
               View Assignments
             </li>
-            <li className="sidebar-item">
+            <li
+              className={`sidebar-item ${activeTab === 'submissions' ? 'active' : ''}`}
+              onClick={() => setActiveTab('submissions')}
+            >
               Submissions
+            </li>
+            <li className="sidebar-item" onClick={handleLogout}>
+              Logout
             </li>
           </ul>
         </aside>
@@ -159,27 +186,27 @@ function FacultyDashboard() {
                   <form onSubmit={handleAssignmentSubmit}>
                     <div className="form-group">
                       <label>Question:</label>
-                      <input 
-                        type="text" 
-                        value={question} 
-                        onChange={(e) => setQuestion(e.target.value)} 
-                        required 
+                      <input
+                        type="text"
+                        value={question}
+                        onChange={(e) => setQuestion(e.target.value)}
+                        required
                         className="form-input"
                       />
                     </div>
                     <div className="form-group">
                       <label>Deadline:</label>
-                      <input 
-                        type="date" 
-                        value={deadline} 
-                        onChange={(e) => setDeadline(e.target.value)} 
-                        required 
+                      <input
+                        type="date"
+                        value={deadline}
+                        onChange={(e) => setDeadline(e.target.value)}
+                        required
                         className="form-input"
                       />
                     </div>
                     <button type="submit" className="form-button">Create</button>
                   </form>
-                  {message && <p>{message}</p>} {/* Display response messages */}
+                  {message && <p>{message}</p>}
                 </div>
               )}
             </div>
@@ -209,29 +236,47 @@ function FacultyDashboard() {
                   <form onSubmit={handleUpdateAssignment}>
                     <div className="form-group">
                       <label>Question:</label>
-                      <input 
-                        type="text" 
-                        value={question} 
-                        onChange={(e) => setQuestion(e.target.value)} 
-                        required 
+                      <input
+                        type="text"
+                        value={question}
+                        onChange={(e) => setQuestion(e.target.value)}
+                        required
                         className="form-input"
                       />
                     </div>
                     <div className="form-group">
                       <label>Deadline:</label>
-                      <input 
-                        type="date" 
-                        value={deadline} 
-                        onChange={(e) => setDeadline(e.target.value)} 
-                        required 
+                      <input
+                        type="date"
+                        value={deadline}
+                        onChange={(e) => setDeadline(e.target.value)}
+                        required
                         className="form-input"
                       />
                     </div>
                     <button type="submit" className="form-button">Update</button>
                     <button onClick={() => setEditingAssignment(null)} className="form-button">Cancel</button>
                   </form>
-                  {message && <p>{message}</p>} {/* Display response messages */}
+                  {message && <p>{message}</p>}
                 </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'submissions' && (
+            <div>
+              <h2>Submissions</h2>
+              {submissions.length === 0 ? (
+                <p>No submissions available.</p>
+              ) : (
+                <ul>
+                  {submissions.map((file, index) => (
+                    <li key={index}>
+                      <p>Filename: {file}</p>
+                      <a href={`http://localhost:5000/submissions/${file}`} download={file}>Download</a>
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
           )}

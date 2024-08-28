@@ -48,6 +48,16 @@ const assignmentSchema = new mongoose.Schema({
 
 const Assignment = mongoose.model('Assignment', assignmentSchema);
 
+// Define ExamSchedule schema and model
+const examScheduleSchema = new mongoose.Schema({
+    courseName: { type: String, required: true },
+    examDate: { type: Date, required: true },
+    examTime: { type: String, required: true }
+  });
+  
+  const ExamSchedule = mongoose.model('ExamSchedule', examScheduleSchema);
+  
+
 // Configure Multer for file uploads
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -247,6 +257,31 @@ app.get('/submissions', (req, res) => {
     });
   });
 
+  // POST route to create a new exam schedule
+app.post('/create-exam-schedule', async (req, res) => {
+    try {
+      const { courseName, examDate, examTime } = req.body;
+  
+      // Validate request data
+      if (!courseName || !examDate || !examTime) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+  
+      const newExamSchedule = new ExamSchedule({
+        courseName,
+        examDate: new Date(examDate), // Convert to Date object
+        examTime
+      });
+  
+      await newExamSchedule.save();
+  
+      res.status(201).json({ message: 'Exam schedule created successfully' });
+    } catch (error) {
+      console.error('Error creating exam schedule:', error);
+      res.status(500).json({ error: 'Error creating exam schedule. Please try again later.' });
+    }
+  });
+  
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '../../build')));
 

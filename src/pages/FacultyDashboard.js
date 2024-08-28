@@ -290,7 +290,7 @@ function FacultyDashboard() {
             </div>
           )}
           {activeTab === 'viewAssignments' && (
-            <div>
+            <div classname="assignments">
               <h2>View Assignments</h2>
               {assignments.length === 0 ? (
                 <p>No assignments available.</p>

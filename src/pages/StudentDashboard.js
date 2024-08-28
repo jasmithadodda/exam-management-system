@@ -115,7 +115,9 @@ function StudentDashboard() {
             >
              View Exam Schedule
             </li>
-            <li className="sidebar-item" onClick={handleLogout}>
+            <li 
+              className="sidebar-item" onClick={handleLogout} style={{ color: 'red' }}  // Inline style to set text color to red
+            >
               Logout
             </li>
           </ul>

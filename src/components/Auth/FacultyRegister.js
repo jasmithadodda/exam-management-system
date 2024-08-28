@@ -44,9 +44,9 @@ function FacultyRegister() {
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: '100vh',
-    backgroundColor: '#f0f0f0', // Light background color
     textAlign: 'center',
-    padding: '20px'
+    padding: '20px',
+    backgroundColor: '#A8CAD6'
   };
 
   const formStyle = {

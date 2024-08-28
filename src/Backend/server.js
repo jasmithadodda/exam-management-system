@@ -292,7 +292,7 @@ app.get('/exam-schedules', async (req, res) => {
       res.status(500).json({ error: 'Error fetching exam schedules. Please try again later.' });
     }
   });
-  
+
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '../../build')));
 

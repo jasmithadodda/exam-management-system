@@ -10,7 +10,7 @@ function StudentDashboard() {
 
   // Fetch assignments when the component mounts or when the tab is changed
   useEffect(() => {
-    if (activeTab === 'viewAssignments') {
+   if (activeTab === 'viewAssignments') {
       fetchAssignments();
     } else if (activeTab === 'viewExamSchedule') {
       fetchExamSchedules();

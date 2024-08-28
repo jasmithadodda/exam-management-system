@@ -281,6 +281,17 @@ app.post('/create-exam-schedule', async (req, res) => {
       res.status(500).json({ error: 'Error creating exam schedule. Please try again later.' });
     }
   });
+
+  // GET route to fetch all exam schedules
+app.get('/exam-schedules', async (req, res) => {
+    try {
+      const examSchedules = await ExamSchedule.find({});
+      res.status(200).json(examSchedules);
+    } catch (error) {
+      console.error('Error fetching exam schedules:', error);
+      res.status(500).json({ error: 'Error fetching exam schedules. Please try again later.' });
+    }
+  });
   
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '../../build')));

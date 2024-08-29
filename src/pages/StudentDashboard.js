@@ -4,6 +4,7 @@ import '../Styles/Sdashboard.css'; // Import the CSS file
 function StudentDashboard() {
   const [activeTab, setActiveTab] = useState(''); // State to manage active tab
   const [assignments, setAssignments] = useState([]); // State to store fetched assignments
+  const [examSchedules, setExamSchedules] = useState([]); // State to store fetched exam schedules
   const [selectedFile, setSelectedFile] = useState(null); // State to store selected file
   const [message, setMessage] = useState(''); // State to manage response messages
 
@@ -11,6 +12,8 @@ function StudentDashboard() {
   useEffect(() => {
     if (activeTab === 'viewAssignments') {
       fetchAssignments();
+    } else if (activeTab === 'viewExamSchedule') {
+      fetchExamSchedules();
     }
   }, [activeTab]);
 
@@ -20,14 +23,27 @@ function StudentDashboard() {
       const response = await fetch('http://localhost:5000/assignments');
       const data = await response.json();
       if (response.ok) {
-        // Sort assignments by deadline
-        const sortedAssignments = data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
-        setAssignments(sortedAssignments);
+        setAssignments(data);
       } else {
         console.error('Failed to fetch assignments:', data.error);
       }
     } catch (error) {
       console.error('Error fetching assignments:', error);
+    }
+  };
+
+  // Function to fetch exam schedules from the server
+  const fetchExamSchedules = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/exam-schedules');
+      const data = await response.json();
+      if (response.ok) {
+        setExamSchedules(data);
+      } else {
+        console.error('Failed to fetch exam schedules:', data.error);
+      }
+    } catch (error) {
+      console.error('Error fetching exam schedules:', error);
     }
   };
 
@@ -81,24 +97,33 @@ function StudentDashboard() {
       <div className="studentdashboard-main-content">
         <aside className="studentdashboard-sidebar">
           <ul className="sidebar-list">
-            <li 
+            <li
               className="sidebar-item"
               onClick={() => setActiveTab('viewAssignments')}
             >
               View Assignments
             </li>
-            <li 
+            <li
               className="sidebar-item"
               onClick={() => setActiveTab('uploadAssignment')}
             >
               Upload Assignment
             </li>
-            <li className="sidebar-item" onClick={handleLogout}>
+            <li
+              className="sidebar-item"
+              onClick={() => setActiveTab('viewExamSchedule')}
+            >
+             View Exam Schedule
+            </li>
+            <li
+              className="sidebar-item" onClick={handleLogout} style={{ color: 'red' }}  // Inline style to set text color to red
+            >
               Logout
             </li>
           </ul>
         </aside>
         <main className="studentdashboard-content">
+          {!activeTab && <p>Welcome to Student Dashboard</p>}
           {activeTab === 'viewAssignments' && (
             <div className="assignments">
               <h2>Assignments</h2>
@@ -120,13 +145,31 @@ function StudentDashboard() {
             <div className="upload-assignment">
               <h2>Upload Assignment</h2>
               <form onSubmit={handleFileUpload}>
-                <input 
-                  type="file" 
-                  onChange={handleFileChange} 
+                <input
+                  type="file"
+                  onChange={handleFileChange}
                 />
                 <button type="submit">Upload</button>
               </form>
               {message && <p>{message}</p>}
+            </div>
+          )}
+          {activeTab === 'viewExamSchedule' && (
+            <div className="exam-schedule">
+              <h2>Exam Schedule</h2>
+              {examSchedules.length === 0 ? (
+                <p>No exam schedules available.</p>
+              ) : (
+                <ul>
+                  {examSchedules.map((schedule) => (
+                    <li key={schedule._id}>
+                      <p>Course: {schedule.courseName}</p>
+                      <p>Date: {new Date(schedule.examDate).toLocaleDateString()}</p>
+                      <p>Time: {schedule.examTime}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
         </main>

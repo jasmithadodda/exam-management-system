@@ -1,69 +1,301 @@
 /* FacultyDashboard.css */
 
 .dashboard-container {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  .dashboard-header {
-    background-color: #ac6eb0;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-  }
-  
-  .dashboard-main-content {
-    display: flex;
-    flex: 1;
-  }
-  
-  .dashboard-sidebar {
-    width: 200px;
-    background-color: #f4f4f4;
-    padding: 1rem;
-  }
-  
-  .sidebar-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .sidebar-item {
-    padding: 10px 0;
-    cursor: pointer;
-    color: #333;
-  }
-  
-  .sidebar-item:hover {
-    background-color: #ddd;
-  }
-  
-  .dashboard-content {
-    flex: 1;
-    padding: 1rem;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  .form-input {
-    padding: 0.5rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .form-button {
-    padding: 0.5rem 1rem;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .form-button:hover {
-    background-color: #45a049;
-  }
-  
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f0f2f5; /* Light background color */
+}
+
+.dashboard-header {
+  background-color: #17203f;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden; /* Prevent overflow */
+}
+
+.dashboard-sidebar {
+  width: 200px;
+  background-color: #e0e2e3; /* Light gray background */
+  padding: 20px; /* Increased padding for more space */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  border-right: 1px solid #ddd; /* Optional border for a distinct separation */
+}
+
+.sidebar-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  padding: 10px 0;
+  cursor: pointer;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Added box-shadow transition */
+  margin-bottom: 5px; /* Space between items */
+  border-radius: 4px; /* Rounded corners */
+  padding-left: 10px; /* Padding for indentation */
+}
+
+.sidebar-item:hover {
+  background-color: #cccdcf; /* Slightly darker gray for hover effect */
+  color: #000;
+  box-shadow: 2px 2px 5px rgba(145, 77, 140, 0.15); /* Box shadow on hover */
+}
+
+.sidebar-item.active {
+  background-color: #d4d2d4; /* Slightly darker gray for active state */
+  color: #000;
+  box-shadow: 2px 2px 5px rgba(174, 95, 165, 0.2); /* Box shadow for active state */
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  overflow-y: auto; /* Enable scrolling */
+}
+
+.assignments, .exam-schedule, .submissions {
+  padding: 1rem;
+  background-color: #ffffff; /* White background */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.assignments h2, .exam-schedule h2, .submissions h2 {
+  margin-bottom: 1rem;
+  color: #070707;
+}
+
+.assignments ul, .exam-schedule ul, .submissions ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.assignments li, .exam-schedule li, .submissions li {
+  background-color: #f9f9f9; /* Slightly lighter white for items */
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  border-left: 4px solid #070707; /* Highlight border */
+  display: flex; /* Flexbox to align items */
+  align-items: center; /* Center items vertically */
+  justify-content: space-between; /* Space between items */
+}
+
+.submissions li {
+  border-left: 4px solid #090a0a; /* Different border color for submissions */
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-input {
+  padding: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-button {
+  padding: 0.5rem 1rem;
+  background-color: #050605;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+
+.message {
+  margin-top: 1rem;
+  color: #d9534f; /* Red color for error messages */
+  font-weight: bold;
+}
+
+/* Specific styles for viewAssignments */
+.assignments {
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.assignments h2 {
+  margin-bottom: 1rem;
+  color: #070707;
+}
+
+.assignments ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.assignments li {
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  border-left: 4px solid #070707;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.assignments li p {
+  margin: 0;
+}
+
+.assignments li button {
+  margin-left: 10px;
+  padding: 0.5rem 1rem;
+  background-color: #050605;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.edit-assignment-form {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.edit-assignment-form h2 {
+  margin-bottom: 1rem;
+  color: #070707;
+}
+
+.edit-assignment-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-assignment-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.edit-assignment-form .form-input {
+  padding: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.edit-assignment-form .form-button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-assignment-form .form-button {
+  padding: 0.5rem 1rem;
+  background-color: #050605;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Specific styles for submissions */
+.submissions {
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.submissions h2 {
+  margin-bottom: 1rem;
+  color: #070707;
+}
+
+.submissions ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.submissions li {
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  border-left: 4px solid #090a0a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.submissions li p {
+  margin: 0;
+}
+
+.submissions li button {
+  padding: 0.5rem 1rem;
+  background-color: #050605;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Specific styles for exam-schedule */
+.exam-schedule {
+  padding: 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.exam-schedule h2 {
+  margin-bottom: 1rem;
+  color: #070707;
+}
+
+.exam-schedule ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.exam-schedule li {
+  background-color: #f9f9f9;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  border-left: 4px solid #070707;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.exam-schedule li p {
+  margin: 0;
+}
+
+.exam-schedule li button {
+  padding: 0.5rem 1rem;
+  background-color: #050605;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+

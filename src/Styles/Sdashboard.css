@@ -169,3 +169,26 @@
   color: #d9534f; /* Red color for error messages */
   font-weight: bold;
 }
+
+/* Styles for the search bar */
+.search-bar {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-input {
+  padding: 0.5rem;
+  width: 100%;
+  max-width: 400px; /* Adjust the max-width as needed */
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  border-color: #007bff;
+  outline: none;
+}

@@ -7,6 +7,7 @@ function StudentDashboard() {
   const [examSchedules, setExamSchedules] = useState([]); // State to store fetched exam schedules
   const [selectedFile, setSelectedFile] = useState(null); // State to store selected file
   const [message, setMessage] = useState(''); // State to manage response messages
+  const [searchTerm, setSearchTerm] = useState(''); // State for search input
 
   // Fetch assignments when the component mounts or when the tab is changed
   useEffect(() => {
@@ -89,6 +90,11 @@ function StudentDashboard() {
     window.location.href = '/'; // Redirect to home page after logout
   };
 
+  // Filter assignments based on the search term
+  const filteredAssignments = assignments.filter((assignment) =>
+    assignment.question.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="studentdashboard-container">
       <header className="header-container">
@@ -127,11 +133,20 @@ function StudentDashboard() {
           {activeTab === 'viewAssignments' && (
             <div className="assignments">
               <h2>Assignments</h2>
-              {assignments.length === 0 ? (
+              <div className="search-bar">
+                <input
+                  type="text"
+                  placeholder="Search assignments by question"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
+                />
+              </div>
+              {filteredAssignments.length === 0 ? (
                 <p>No assignments available.</p>
               ) : (
                 <ul>
-                  {assignments.map((assignment) => (
+                  {filteredAssignments.map((assignment) => (
                     <li key={assignment._id}>
                       <p>Question: {assignment.question}</p>
                       <p>Deadline: {new Date(assignment.deadline).toLocaleDateString()}</p>

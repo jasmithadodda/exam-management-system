@@ -10,7 +10,7 @@ function StudentDashboard() {
 
   // Fetch assignments when the component mounts or when the tab is changed
   useEffect(() => {
-   if (activeTab === 'viewAssignments') {
+    if (activeTab === 'viewAssignments') {
       fetchAssignments();
     } else if (activeTab === 'viewExamSchedule') {
       fetchExamSchedules();
@@ -97,25 +97,25 @@ function StudentDashboard() {
       <div className="studentdashboard-main-content">
         <aside className="studentdashboard-sidebar">
           <ul className="sidebar-list">
-            <li 
+            <li
               className="sidebar-item"
               onClick={() => setActiveTab('viewAssignments')}
             >
               View Assignments
             </li>
-            <li 
+            <li
               className="sidebar-item"
               onClick={() => setActiveTab('uploadAssignment')}
             >
               Upload Assignment
             </li>
-            <li 
+            <li
               className="sidebar-item"
               onClick={() => setActiveTab('viewExamSchedule')}
             >
              View Exam Schedule
             </li>
-            <li 
+            <li
               className="sidebar-item" onClick={handleLogout} style={{ color: 'red' }}  // Inline style to set text color to red
             >
               Logout
@@ -123,6 +123,7 @@ function StudentDashboard() {
           </ul>
         </aside>
         <main className="studentdashboard-content">
+          {!activeTab && <p>Welcome to Student Dashboard</p>}
           {activeTab === 'viewAssignments' && (
             <div className="assignments">
               <h2>Assignments</h2>
@@ -144,9 +145,9 @@ function StudentDashboard() {
             <div className="upload-assignment">
               <h2>Upload Assignment</h2>
               <form onSubmit={handleFileUpload}>
-                <input 
-                  type="file" 
-                  onChange={handleFileChange} 
+                <input
+                  type="file"
+                  onChange={handleFileChange}
                 />
                 <button type="submit">Upload</button>
               </form>

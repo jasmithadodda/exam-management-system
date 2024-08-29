@@ -23,7 +23,7 @@ function FacultyDashboard() {
       fetchAssignments(); // Fetch assignments when "View Assignments" is active
     } else if (activeTab === 'submissions') {
       fetchSubmissions(); // Fetch submissions when "Submissions" tab is active
-    }  else if (activeTab === 'examSchedule') {
+    } else if (activeTab === 'examSchedule') {
       fetchExamSchedules(); // Fetch exam schedules when "Exam Schedule" tab is active
     }
   }, [activeTab]);
@@ -215,32 +215,32 @@ function FacultyDashboard() {
       <div className="dashboard-main-content">
         <aside className="dashboard-sidebar">
           <ul className="sidebar-list">
-            <li 
+            <li
               className="sidebar-item"
               onClick={() => setActiveTab('manageAssignments')}
             >
               Manage Assignments
             </li>
-            <li 
+            <li
               className="sidebar-item"
               onClick={() => setActiveTab('viewAssignments')}
             >
               View Assignments
             </li>
-            <li 
+            <li
               className="sidebar-item"
               onClick={() => setActiveTab('submissions')} // Added onClick to set active tab
             >
               Submissions
             </li>
-            <li 
+            <li
               className="sidebar-item"
               onClick={() => setActiveTab('examSchedule')} // Added onClick to set active tab
             >
               Exam Schedule
             </li>
             {/* Logout Option */}
-            <li 
+            <li
               className="sidebar-item"
               onClick={handleLogout} // Logout handler
               style={{ color: 'red', cursor: 'pointer' }} // Optional styling for logout
@@ -250,6 +250,7 @@ function FacultyDashboard() {
           </ul>
         </aside>
         <section className="dashboard-content">
+          {!activeTab && <p>Welcome to Faculty Dashboard</p>}
           {activeTab === 'manageAssignments' && (
             <div>
               <button
@@ -264,21 +265,21 @@ function FacultyDashboard() {
                   <form onSubmit={handleAssignmentSubmit}>
                     <div className="form-group">
                       <label>Question:</label>
-                      <input 
-                        type="text" 
-                        value={question} 
-                        onChange={(e) => setQuestion(e.target.value)} 
-                        required 
+                      <input
+                        type="text"
+                        value={question}
+                        onChange={(e) => setQuestion(e.target.value)}
+                        required
                         className="form-input"
                       />
                     </div>
                     <div className="form-group">
                       <label>Deadline:</label>
-                      <input 
-                        type="date" 
-                        value={deadline} 
-                        onChange={(e) => setDeadline(e.target.value)} 
-                        required 
+                      <input
+                        type="date"
+                        value={deadline}
+                        onChange={(e) => setDeadline(e.target.value)}
+                        required
                         className="form-input"
                       />
                     </div>
@@ -290,7 +291,7 @@ function FacultyDashboard() {
             </div>
           )}
           {activeTab === 'viewAssignments' && (
-            <div classname="assignments">
+            <div className="assignments">
               <h2>View Assignments</h2>
               {assignments.length === 0 ? (
                 <p>No assignments available.</p>
@@ -300,8 +301,10 @@ function FacultyDashboard() {
                     <li key={assignment._id}>
                       <p>Question: {assignment.question}</p>
                       <p>Deadline: {new Date(assignment.deadline).toLocaleDateString()}</p>
-                      <button onClick={() => handleEditAssignment(assignment)}>Edit</button>
-                      <button onClick={() => handleDeleteAssignment(assignment._id)}>Delete</button>
+                      <div className="form-button-group">
+                        <button onClick={() => handleEditAssignment(assignment)}>Edit</button>
+                        <button onClick={() => handleDeleteAssignment(assignment._id)}>Delete</button>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -312,26 +315,28 @@ function FacultyDashboard() {
                   <form onSubmit={handleUpdateAssignment}>
                     <div className="form-group">
                       <label>Question:</label>
-                      <input 
-                        type="text" 
-                        value={question} 
-                        onChange={(e) => setQuestion(e.target.value)} 
-                        required 
+                      <input
+                        type="text"
+                        value={question}
+                        onChange={(e) => setQuestion(e.target.value)}
+                        required
                         className="form-input"
                       />
                     </div>
                     <div className="form-group">
                       <label>Deadline:</label>
-                      <input 
-                        type="date" 
-                        value={deadline} 
-                        onChange={(e) => setDeadline(e.target.value)} 
-                        required 
+                      <input
+                        type="date"
+                        value={deadline}
+                        onChange={(e) => setDeadline(e.target.value)}
+                        required
                         className="form-input"
                       />
                     </div>
-                    <button type="submit" className="form-button">Update</button>
-                    <button onClick={() => setEditingAssignment(null)} className="form-button">Cancel</button>
+                    <div className="form-button-group">
+                      <button type="submit" className="form-button">Update</button>
+                      <button onClick={() => setEditingAssignment(null)} className="form-button">Cancel</button>
+                    </div>
                   </form>
                   {message && <p>{message}</p>} {/* Display response messages */}
                 </div>
@@ -339,7 +344,7 @@ function FacultyDashboard() {
             </div>
           )}
           {activeTab === 'submissions' && (
-            <div>
+            <div className="submissions">
               <h2>Submissions</h2>
               {submissions.length === 0 ? (
                 <p>No submissions available.</p>
@@ -348,7 +353,9 @@ function FacultyDashboard() {
                   {submissions.map((filename, index) => (
                     <li key={index}>
                       <p>{filename}</p>
-                      <button onClick={() => handleDownloadFile(filename)}>Download</button>
+                      <div className="form-button-group">
+                        <button onClick={() => handleDownloadFile(filename)}>Download</button>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -357,36 +364,36 @@ function FacultyDashboard() {
           )}
           {/* Exam Schedule Tab */}
           {activeTab === 'examSchedule' && (
-            <div>
+            <div className="exam-schedule">
               <h2>Create Exam Schedule</h2>
               <form onSubmit={handleExamScheduleSubmit}>
                 <div className="form-group">
                   <label>Course Name:</label>
-                  <input 
-                    type="text" 
-                    value={courseName} 
-                    onChange={(e) => setCourseName(e.target.value)} 
-                    required 
+                  <input
+                    type="text"
+                    value={courseName}
+                    onChange={(e) => setCourseName(e.target.value)}
+                    required
                     className="form-input"
                   />
                 </div>
                 <div className="form-group">
                   <label>Exam Date:</label>
-                  <input 
-                    type="date" 
-                    value={examDate} 
-                    onChange={(e) => setExamDate(e.target.value)} 
-                    required 
+                  <input
+                    type="date"
+                    value={examDate}
+                    onChange={(e) => setExamDate(e.target.value)}
+                    required
                     className="form-input"
                   />
                 </div>
                 <div className="form-group">
                   <label>Exam Time:</label>
-                  <input 
-                    type="time" 
-                    value={examTime} 
-                    onChange={(e) => setExamTime(e.target.value)} 
-                    required 
+                  <input
+                    type="time"
+                    value={examTime}
+                    onChange={(e) => setExamTime(e.target.value)}
+                    required
                     className="form-input"
                   />
                 </div>

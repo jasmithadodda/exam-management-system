@@ -9,7 +9,7 @@
 
 /* Header styling for the dashboard */
 .header-container {
-  background-color: #ac6eb0;
+  background-color: #17203f;
   color: white;
   padding: 1rem;
   text-align: center;
@@ -54,14 +54,14 @@
 
 /* Hover effect for sidebar items */
 .sidebar-item:hover {
-  background-color: #ce98ce; /* Slightly darker gray for hover effect */
+  background-color: #cccdcf; /* Slightly darker gray for hover effect */
   color: #000;
   box-shadow: 2px 2px 5px rgba(145, 77, 140, 0.15); /* Box shadow on hover */
 }
 
 /* Active state for clicked sidebar items */
 .sidebar-item.active {
-  background-color: #db7fcd; /* Slightly darker gray for active state */
+  background-color: #cccdcf; /* Slightly darker gray for active state */
   color: #000;
   box-shadow: 2px 2px 5px rgba(174, 95, 165, 0.2); /* Box shadow for active state */
 }
@@ -127,7 +127,7 @@
 .upload-assignment button {
   align-self: flex-start;
   padding: 0.5rem 1rem;
-  background-color: #4CAF50;
+  background-color: #17203f;
   color: white;
   border: none;
   border-radius: 4px;
@@ -135,9 +135,7 @@
   transition: background-color 0.3s;
 }
 
-.upload-assignment button:hover {
-  background-color: #45a049;
-}
+
 
 /* Exam Schedule Section Styling */
 .exam-schedule {

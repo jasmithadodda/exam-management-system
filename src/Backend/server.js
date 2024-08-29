@@ -293,6 +293,20 @@ app.get('/exam-schedules', async (req, res) => {
     }
   });
 
+  app.get('/assignments', async (req, res) => {
+    try {
+      const query = req.query.query || '';
+      const assignments = await Assignment.find({
+        question: { $regex: query, $options: 'i' } // Case-insensitive search
+      });
+      res.status(200).json(assignments);
+    } catch (error) {
+      console.error('Error fetching assignments:', error);
+      res.status(500).json({ error: 'Error fetching assignments. Please try again later.' });
+    }
+  });
+  
+
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, '../../build')));
 

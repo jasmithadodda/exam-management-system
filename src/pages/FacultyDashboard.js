@@ -15,6 +15,7 @@ function FacultyDashboard() {
   const [courseName, setCourseName] = useState(''); // State for course name input
   const [examDate, setExamDate] = useState(''); // State for exam date input
   const [examTime, setExamTime] = useState('');
+  const [searchTerm, setSearchTerm] = useState(''); // State for search input
 
   const navigate = useNavigate(); // Initialize navigate for redirection
 
@@ -207,6 +208,11 @@ function FacultyDashboard() {
     navigate('/'); // Redirect to home page
   };
 
+  // Filter assignments based on the search term
+  const filteredAssignments = assignments.filter((assignment) =>
+    assignment.question.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
@@ -283,9 +289,16 @@ function FacultyDashboard() {
                         className="form-input"
                       />
                     </div>
-                    <button type="submit" className="form-button">Create</button>
+                    <button type="submit" className="form-button">Submit</button>
+                    <button
+                      type="button"
+                      onClick={() => setShowCreateForm(false)}
+                      className="form-button"
+                    >
+                      Cancel
+                    </button>
                   </form>
-                  {message && <p>{message}</p>} {/* Display response messages */}
+                  {message && <p>{message}</p>}
                 </div>
               )}
             </div>
@@ -293,11 +306,20 @@ function FacultyDashboard() {
           {activeTab === 'viewAssignments' && (
             <div className="assignments">
               <h2>View Assignments</h2>
-              {assignments.length === 0 ? (
+              <div className="search-bar">
+                <input
+                  type="text"
+                  placeholder="Search assignments by question"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="search-input"
+                />
+              </div>
+              {filteredAssignments.length === 0 ? (
                 <p>No assignments available.</p>
               ) : (
                 <ul>
-                  {assignments.map((assignment) => (
+                  {filteredAssignments.map((assignment) => (
                     <li key={assignment._id}>
                       <p>Question: {assignment.question}</p>
                       <p>Deadline: {new Date(assignment.deadline).toLocaleDateString()}</p>
@@ -338,7 +360,7 @@ function FacultyDashboard() {
                       <button onClick={() => setEditingAssignment(null)} className="form-button">Cancel</button>
                     </div>
                   </form>
-                  {message && <p>{message}</p>} {/* Display response messages */}
+                  {message && <p>{message}</p>}
                 </div>
               )}
             </div>
@@ -362,7 +384,6 @@ function FacultyDashboard() {
               )}
             </div>
           )}
-          {/* Exam Schedule Tab */}
           {activeTab === 'examSchedule' && (
             <div className="exam-schedule">
               <h2>Create Exam Schedule</h2>

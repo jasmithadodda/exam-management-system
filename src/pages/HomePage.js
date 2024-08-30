@@ -1,3 +1,4 @@
+// src/pages/HomePage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Styles/HomePage.css';
@@ -17,7 +18,7 @@ function HomePage() {
 
   return (
     <div className="homepage-container">
-      <h1 className="homepage-title"> Exam Management System</h1>
+      <h1 className="homepage-title">Exam Management System</h1>
 
       <div className="login-buttons-container">
         <button onClick={goToStudentLogin} className="login-button student-button">

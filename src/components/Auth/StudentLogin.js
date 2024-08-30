@@ -9,12 +9,11 @@ function StudentLogin() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
     try {
       const response = await fetch('http://localhost:5000/student-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
@@ -35,93 +34,119 @@ function StudentLogin() {
     navigate('/student-register');
   };
 
+  // Unified styles
   const containerStyle = {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
     minHeight: '100vh',
-    textAlign: 'center',
-    padding: '20px',
-    backgroundColor: '#A8CAD6'
+    backgroundColor: '#f7f8fc',
+  };
+
+  const cardStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '800px',
+    backgroundColor: '#ffffff',
+    borderRadius: '10px',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+    overflow: 'hidden',
+  };
+
+  const leftPaneStyle = {
+    flex: 1,
+    backgroundColor: '#1e1e2d',
+    color: '#ffffff',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '40px',
+  };
+
+  const rightPaneStyle = {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '40px',
   };
 
   const formStyle = {
-    backgroundColor: '#ffffff',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    maxWidth: '400px',
-    width: '100%'
+    width: '100%',
+    maxWidth: '300px',
   };
 
   const inputStyle = {
     width: '100%',
-    padding: '10px',
-    margin: '10px 0',
+    padding: '12px',
+    marginBottom: '10px',
     border: '1px solid #ddd',
     borderRadius: '4px',
-    boxSizing: 'border-box'
+    fontSize: '14px',
   };
 
   const buttonStyle = {
     width: '100%',
-    padding: '10px',
-    backgroundColor: '#007bff', // Primary button color
+    padding: '12px',
+    backgroundColor: '#6c63ff',
     color: '#fff',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-    fontSize: '16px'
-  };
-
-  const buttonHoverStyle = {
-    backgroundColor: '#0056b3' // Darker button color on hover
+    fontSize: '16px',
+    marginTop: '10px',
   };
 
   const linkStyle = {
-    color: '#007bff',
+    color: '#6c63ff',
+    textDecoration: 'none',
     cursor: 'pointer',
-    textDecoration: 'underline'
   };
 
   return (
     <div style={containerStyle}>
-      <div style={formStyle}>
-        <h2>Student Login</h2>
-        <form onSubmit={handleLogin}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={inputStyle}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={inputStyle}
-          />
-          <button
-            type="submit"
-            style={buttonStyle}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = buttonStyle.backgroundColor}
-          >
-            Login
-          </button>
-        </form>
-        {message && <p>{message}</p>}
-        <p>
-          Not registered yet?{' '}
-          <span onClick={goToRegister} style={linkStyle}>
-            Click here to register.
-          </span>
-        </p>
+      <div style={cardStyle}>
+        <div style={leftPaneStyle}>
+          <h1>Welcome to Your Academic Community</h1>
+        </div>
+        <div style={rightPaneStyle}>
+          <div style={formStyle}>
+            <h2>Sign in</h2>
+            <form onSubmit={handleLogin}>
+              <input
+                type="email"
+                placeholder="Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={inputStyle}
+              />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={inputStyle}
+              />
+              <button
+                type="submit"
+                style={buttonStyle}
+              >
+                SIGN IN
+              </button>
+            </form>
+            {message && <p style={{ color: 'red' }}>{message}</p>}
+            <p>
+              Don't have an account?{' '}
+              <span onClick={goToRegister} style={linkStyle}>
+                Sign up
+              </span>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

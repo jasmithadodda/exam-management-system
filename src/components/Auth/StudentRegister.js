@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
+import { useNavigate } from 'react-router-dom';
 
 function StudentRegister() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -24,8 +24,7 @@ function StudentRegister() {
 
       if (response.ok) {
         setMessage('Student registered successfully!');
-        // Redirect to student login page after a short delay
-        setTimeout(() => navigate('/student-login'), 1000); // Delay to show success message
+        setTimeout(() => navigate('/student-login'), 1000);
       } else {
         setMessage(data.error || 'Error registering student.');
       }
@@ -38,22 +37,41 @@ function StudentRegister() {
   // Styling
   const containerStyle = {
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     minHeight: '100vh',
-    textAlign: 'center',
-    padding: '20px',
-    backgroundColor: '#A8CAD6'
+    backgroundColor: '#f7f9fc'
+  };
+
+  const cardStyle = {
+    display: 'flex',
+    maxWidth: '900px',
+    width: '100%',
+    backgroundColor: '#ffffff',
+    borderRadius: '8px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    overflow: 'hidden',
+  };
+
+  const leftSectionStyle = {
+    flex: '1',
+    backgroundColor: '#1a202c',
+    color: '#ffffff',
+    padding: '40px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
+  };
+
+  const rightSectionStyle = {
+    flex: '1',
+    padding: '40px',
   };
 
   const formStyle = {
-    backgroundColor: '#ffffff',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    maxWidth: '400px',
-    width: '100%'
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   };
 
   const inputStyle = {
@@ -68,7 +86,7 @@ function StudentRegister() {
   const buttonStyle = {
     width: '100%',
     padding: '10px',
-    backgroundColor: '#007bff', // Primary button color
+    backgroundColor: '#4a90e2',
     color: '#fff',
     border: 'none',
     borderRadius: '4px',
@@ -77,63 +95,60 @@ function StudentRegister() {
   };
 
   const buttonHoverStyle = {
-    backgroundColor: '#0056b3' // Darker button color on hover
+    backgroundColor: '#357ABD'
+  };
+
+  const linkStyle = {
+    color: '#4a90e2',
+    cursor: 'pointer',
+    textDecoration: 'underline'
   };
 
   return (
     <div style={containerStyle}>
-      <div style={formStyle}>
-        <h2>Student Register</h2>
-        <form onSubmit={handleRegister}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            style={inputStyle}
-          />
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={inputStyle}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={inputStyle}
-          />
-          <button
-            type="submit"
-            style={buttonStyle}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = buttonStyle.backgroundColor}
-          >
-            Register
-          </button>
-        </form>
-        {message && <p>{message}</p>}
-        {/* Optional button to go to login page directly */}
-        {message.includes('successfully') && (
-          <button
-            onClick={() => navigate('/student-login')}
-            style={{
-              ...buttonStyle,
-              marginTop: '10px',
-              backgroundColor: '#28a745', // Different color for the "Go to Login" button
-            }}
-            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#218838'}
-            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#28a745'}
-          >
-            Go to Login
-          </button>
-        )}
+      <div style={cardStyle}>
+        <div style={leftSectionStyle}>
+          <h1>Join Us and Enhance Your Learning Experience</h1>
+          <p>Already have an account? <span style={linkStyle} onClick={() => navigate('/student-login')}>Sign In</span></p>
+        </div>
+        <div style={rightSectionStyle}>
+          <h2>Register</h2>
+          <form onSubmit={handleRegister} style={formStyle}>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              style={inputStyle}
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              style={inputStyle}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              style={inputStyle}
+            />
+            <button
+              type="submit"
+              style={buttonStyle}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = buttonStyle.backgroundColor}
+            >
+              Register
+            </button>
+          </form>
+          {message && <p style={{ color: message.includes('success') ? 'green' : 'red' }}>{message}</p>}
+        </div>
       </div>
     </div>
   );

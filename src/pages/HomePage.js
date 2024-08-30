@@ -1,4 +1,3 @@
-// src/pages/HomePage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Styles/HomePage.css';
@@ -18,17 +17,19 @@ function HomePage() {
 
   return (
     <div className="homepage-container">
-      <h1 className="homepage-title">Exam Management System</h1>
-
-      <div className="login-buttons-container">
-        <button onClick={goToStudentLogin} className="login-button student-button">
-          <img src={img1} alt="Student Logo" className="logo" />
-          Student
-        </button>
-        <button onClick={goToFacultyLogin} className="login-button faculty-button">
-          <img src={img2} alt="Faculty Logo" className="logo" />
-          Faculty
-        </button>
+      <div className="background-image"></div>
+      <div className="content-container">
+        <h1 className="homepage-title">Exam Management System</h1>
+        <div className="login-buttons-container">
+          <button onClick={goToStudentLogin} className="login-button student-button">
+            <img src={img1} alt="Student Logo" className="logo" />
+            Student
+          </button>
+          <button onClick={goToFacultyLogin} className="login-button faculty-button">
+            <img src={img2} alt="Faculty Logo" className="logo" />
+            Faculty
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -1,3 +1,7 @@
+/* The provided code snippet is a CSS stylesheet that defines the styling for a student dashboard
+interface. It includes various sections such as container styling, header styling, sidebar styling,
+main content area styling, assignments section styling, upload assignment section styling, exam
+schedule section styling, message styling, and styles for a search bar. */
 /* Container styling for the entire dashboard */
 .studentdashboard-container {
   font-family: Arial, sans-serif;

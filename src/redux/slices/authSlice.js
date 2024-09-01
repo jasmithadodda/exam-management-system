@@ -1,4 +1,5 @@
-// src/redux/slices/authSlice.js
+/* This code snippet is a JavaScript file that defines a Redux slice for handling
+authentication-related state in a Redux store. Here's a breakdown of what it does: */
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {

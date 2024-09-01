@@ -1,3 +1,5 @@
+/* This JavaScript code snippet is a test suite for the `FacultyRegister` component. It uses Jest and
+React Testing Library for testing React components. */
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';

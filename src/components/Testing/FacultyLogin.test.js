@@ -1,3 +1,5 @@
+/* This JavaScript code is a test suite for the `FacultyLogin` component. It uses Jest and React
+Testing Library for testing. Here's a breakdown of what each part of the code does: */
 import FacultyLogin from '../Auth/FacultyLogin';
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';

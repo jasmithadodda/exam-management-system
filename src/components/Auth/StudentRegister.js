@@ -1,3 +1,12 @@
+/**
+ * The `StudentRegister` function is a React component that allows students to register with a
+ * username, email, and password, performing validation checks and displaying messages accordingly.
+ * @returns The `StudentRegister` component is being returned. It is a functional component in React
+ * that contains a registration form for students. The form includes fields for username, email, and
+ * password with validation checks. Upon successful registration, a success message is displayed, and
+ * the user is redirected to the student login page. The component also includes styling for the form
+ * and layout of the registration card.
+ */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

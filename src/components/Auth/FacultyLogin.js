@@ -1,3 +1,10 @@
+/**
+ * The `FacultyLogin` function in React handles the login functionality for faculty members, including
+ * form inputs for email and password, error messages, and navigation links.
+ * @returns The `FacultyLogin` component is being returned. It consists of a form for faculty login
+ * with email and password fields, a sign-in button, error message display, and a link to sign up for a
+ * new account. The component also includes styles for the layout and elements within the form.
+ */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

@@ -1,3 +1,5 @@
+/* The above code is a Node.js application using Express framework to create a RESTful API for an exam
+management system. Here is a summary of what the code is doing: */
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');

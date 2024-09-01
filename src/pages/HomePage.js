@@ -1,3 +1,12 @@
+/**
+ * The `HomePage` function in JavaScript renders a homepage component for an Exam Management System
+ * with buttons to navigate to student and faculty login pages.
+ * @returns The `HomePage` component is being returned. It consists of a container with a background
+ * image and content container. Inside the content container, there is a title "Exam Management System"
+ * and two login buttons for Student and Faculty. Each button has an image logo and text. The component
+ * also uses `useNavigate` from 'react-router-dom' to navigate to different routes when the buttons are
+ * clicked.
+ */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Styles/HomePage.css';

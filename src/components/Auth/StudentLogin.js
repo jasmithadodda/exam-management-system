@@ -1,3 +1,11 @@
+/**
+ * The `StudentLogin` function in React handles student login functionality with form inputs for email
+ * and password, error message display, and navigation links.
+ * @returns The `StudentLogin` component is being returned. It consists of a form for student login
+ * with email and password fields, a sign-in button, and a link to sign up if the user doesn't have an
+ * account. The component also includes styles for the layout and elements like the card, form, input
+ * fields, buttons, and links.
+ */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

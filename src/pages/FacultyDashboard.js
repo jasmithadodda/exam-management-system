@@ -1,3 +1,14 @@
+/**
+ * The `FacultyDashboard` function in React manages assignments, submissions, and exam schedules for
+ * faculty members with features like creating, editing, and deleting assignments, viewing submissions,
+ * and creating exam schedules.
+ * @returns The `FacultyDashboard` component is being returned. It contains the JSX structure for the
+ * faculty dashboard interface with different tabs for managing assignments, viewing assignments,
+ * viewing submissions, and managing exam schedules. The component includes state variables, event
+ * handlers for fetching data, creating, updating, and deleting assignments, handling submissions,
+ * downloading files, creating exam schedules, and logging out. The component also renders different
+ * sections based on
+ */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdEdit, MdDelete, MdDownload, MdSend, MdCancel, MdExitToApp } from 'react-icons/md'; // Importing icons

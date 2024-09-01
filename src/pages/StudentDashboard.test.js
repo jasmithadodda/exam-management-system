@@ -1,3 +1,5 @@
+/* This JavaScript code snippet is a test suite for a React component called `StudentDashboard`. Here's
+a breakdown of what the code is doing: */
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import StudentDashboard from './StudentDashboard'; // Adjust the path as necessary

@@ -1,3 +1,5 @@
+/* This code snippet is a test suite written in Jest for testing the functionality of a React component
+called `HomePage`. Here's a breakdown of what the code is doing: */
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter as Router } from 'react-router-dom';

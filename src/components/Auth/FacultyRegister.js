@@ -1,3 +1,12 @@
+/**
+ * The `FacultyRegister` function in React handles the registration of faculty members with form input
+ * validation and error handling.
+ * @returns The `FacultyRegister` component is being returned. It contains a form for faculty
+ * registration with input fields for username, email, and password. The form includes validation for
+ * the password format and a submit button to register the faculty member. The component also includes
+ * styling for the layout and elements within the form. Additionally, there is a message displayed
+ * below the form to show success or error messages after registration attempts.
+ */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 

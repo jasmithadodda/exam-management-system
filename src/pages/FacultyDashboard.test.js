@@ -1,3 +1,17 @@
+/**
+ * The above code contains two test cases using Jest and React Testing Library to check functionality
+ * in a Faculty Dashboard component, including showing a form on clicking "Manage Assignments" and
+ * logging out to redirect to the home page.
+ * @param ui - The `ui` parameter in the `renderWithRouter` function is the component that you want to
+ * render within the `MemoryRouter` context. In this case, it is the `<FacultyDashboard />` component
+ * that you are testing.
+ * @param [] - The code you provided is a test suite for a React component called `FacultyDashboard`.
+ * It includes two test cases using the `@testing-library/react` library for testing React components.
+ * @returns The code snippet provided contains two test cases for a React component called
+ * `FacultyDashboard`. The first test case checks if the "Create Assignment" form is displayed when the
+ * "Manage Assignments" tab is clicked. The second test case verifies that clicking the "Logout" button
+ * redirects the user to the home page.
+ */
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import FacultyDashboard from './FacultyDashboard'; // Adjust according to your path

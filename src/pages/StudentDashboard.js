@@ -1,3 +1,11 @@
+/**
+ * The `StudentDashboard` function in React manages a student dashboard interface with tabs for viewing
+ * assignments, uploading assignments, viewing exam schedules, and handling user logout.
+ * @returns The `StudentDashboard` component is being returned, which contains the JSX structure for
+ * the student dashboard interface. The component includes header, sidebar, and main content sections.
+ * The content displayed in the main section varies based on the `activeTab` state, which determines
+ * which tab is currently active (e.g., viewAssignments, uploadAssignment, viewExamSchedule).
+ */
 import React, { useState, useEffect } from 'react';
 import '../Styles/Sdashboard.css'; // Import the CSS file
 

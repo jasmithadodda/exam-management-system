@@ -8,6 +8,7 @@
  */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 
 function StudentLogin() {
   const [email, setEmail] = useState('');
@@ -86,13 +87,25 @@ function StudentLogin() {
     maxWidth: '300px',
   };
 
+  const inputContainerStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    marginBottom: '10px',
+    padding: '0 10px',
+  };
+
   const inputStyle = {
     width: '100%',
     padding: '12px',
-    marginBottom: '10px',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
+    border: 'none',
     fontSize: '14px',
+  };
+
+  const iconStyle = {
+    color: 'black',
+    marginRight: '10px',
   };
 
   const buttonStyle = {
@@ -123,22 +136,28 @@ function StudentLogin() {
           <div style={formStyle}>
             <h2>Sign in</h2>
             <form onSubmit={handleLogin}>
-              <input
-                type="email"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                style={inputStyle}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                style={inputStyle}
-              />
+              <div style={inputContainerStyle}>
+                <FaEnvelope style={iconStyle} />
+                <input
+                  type="email"
+                  placeholder="Email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  style={inputStyle}
+                />
+              </div>
+              <div style={inputContainerStyle}>
+                <FaLock style={iconStyle} />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  style={inputStyle}
+                />
+              </div>
               <button
                 type="submit"
                 style={buttonStyle}

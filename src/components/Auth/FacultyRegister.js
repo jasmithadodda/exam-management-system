@@ -1,7 +1,7 @@
 /**
- * The `FacultyRegister` function in React handles the registration of faculty members with form input
+ * The FacultyRegister function in React handles the registration of faculty members with form input
  * validation and error handling.
- * @returns The `FacultyRegister` component is being returned. It contains a form for faculty
+ * @returns The FacultyRegister component is being returned. It contains a form for faculty
  * registration with input fields for username, email, and password. The form includes validation for
  * the password format and a submit button to register the faculty member. The component also includes
  * styling for the layout and elements within the form. Additionally, there is a message displayed
@@ -9,6 +9,7 @@
  */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 
 function FacultyRegister() {
   const [username, setUsername] = useState('');
@@ -93,27 +94,40 @@ function FacultyRegister() {
   const formStyle = {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: '400px' // Ensure form fields and button have consistent width
+  };
+
+  const inputWrapperStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    margin: '10px 0',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    padding: '5px',
+    boxSizing: 'border-box',
+    width: '100%' // Full width for uniform input sizes
   };
 
   const inputStyle = {
     width: '100%',
     padding: '10px',
-    margin: '10px 0',
-    border: '1px solid #ddd',
-    borderRadius: '4px',
-    boxSizing: 'border-box'
+    border: 'none',
+    boxSizing: 'border-box',
+    fontSize: '16px',
   };
 
   const buttonStyle = {
     width: '100%',
-    padding: '10px',
+    padding: '12px',
     backgroundColor: '#4a90e2',
     color: '#fff',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-    fontSize: '16px'
+    fontSize: '16px',
+    marginTop: '10px',
   };
 
   const buttonHoverStyle = {
@@ -136,30 +150,39 @@ function FacultyRegister() {
         <div style={rightSectionStyle}>
           <h2>Register</h2>
           <form onSubmit={handleRegister} style={formStyle}>
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              style={inputStyle}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={inputStyle}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              style={inputStyle}
-            />
+            <div style={inputWrapperStyle}>
+              <FaUser style={{ marginRight: '10px', fontSize: '20px' }} />
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                style={inputStyle}
+              />
+            </div>
+            <div style={inputWrapperStyle}>
+              <FaEnvelope style={{ marginRight: '10px', fontSize: '20px' }} />
+              <input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={inputStyle}
+              />
+            </div>
+            <div style={inputWrapperStyle}>
+              <FaLock style={{ marginRight: '10px', fontSize: '20px' }} />
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={inputStyle}
+              />
+            </div>
             <button
               type="submit"
               style={buttonStyle}

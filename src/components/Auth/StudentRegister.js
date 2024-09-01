@@ -9,6 +9,7 @@
  */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaUser, FaEnvelope, FaLock } from 'react-icons/fa';
 
 function StudentRegister() {
   const [username, setUsername] = useState('');
@@ -98,13 +99,23 @@ function StudentRegister() {
     alignItems: 'center'
   };
 
-  const inputStyle = {
+  const inputWrapperStyle = {
+    display: 'flex',
+    alignItems: 'center',
     width: '100%',
-    padding: '10px',
     margin: '10px 0',
     border: '1px solid #ddd',
     borderRadius: '4px',
+    padding: '5px',
     boxSizing: 'border-box'
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '10px',
+    border: 'none',
+    boxSizing: 'border-box',
+    fontSize: '14px'
   };
 
   const buttonStyle = {
@@ -135,36 +146,42 @@ function StudentRegister() {
         <div style={rightSectionStyle}>
           <h2>Register</h2>
           <form onSubmit={handleRegister} style={formStyle}>
-            <label htmlFor="username">Username</label>
-            <input
-              id="username"
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              style={inputStyle}
-            />
-            <label htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={inputStyle}
-            />
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              style={inputStyle}
-            />
+            <div style={inputWrapperStyle}>
+              <FaUser style={{ marginRight: '10px', fontSize: '20px' }} />
+              <input
+                id="username"
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                style={inputStyle}
+              />
+            </div>
+            <div style={inputWrapperStyle}>
+              <FaEnvelope style={{ marginRight: '10px', fontSize: '20px' }} />
+              <input
+                id="email"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={inputStyle}
+              />
+            </div>
+            <div style={inputWrapperStyle}>
+              <FaLock style={{ marginRight: '10px', fontSize: '20px' }} />
+              <input
+                id="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={inputStyle}
+              />
+            </div>
             <button
               type="submit"
               style={buttonStyle}

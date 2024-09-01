@@ -1,5 +1,3 @@
-/* This code snippet is a test suite written in Jest for testing the functionality of a component
-called `StudentRegister`. Here's a breakdown of what the code is doing: */
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -28,9 +26,9 @@ describe('StudentRegister', () => {
   });
 
   test('renders the registration form and handles input changes', () => {
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const emailInput = screen.getByLabelText(/Email/i);
-    const passwordInput = screen.getByLabelText(/Password/i);
+    const usernameInput = screen.getByPlaceholderText(/Username/i);
+    const emailInput = screen.getByPlaceholderText(/Email/i);
+    const passwordInput = screen.getByPlaceholderText(/Password/i);
 
     fireEvent.change(usernameInput, { target: { value: 'TestUser' } });
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
@@ -52,9 +50,9 @@ describe('StudentRegister', () => {
   });
 
   test('shows an error message for invalid password', async () => {
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const emailInput = screen.getByLabelText(/Email/i);
-    const passwordInput = screen.getByLabelText(/Password/i);
+    const usernameInput = screen.getByPlaceholderText(/Username/i);
+    const emailInput = screen.getByPlaceholderText(/Email/i);
+    const passwordInput = screen.getByPlaceholderText(/Password/i);
     const submitButton = screen.getByRole('button', { name: /Register/i });
 
     fireEvent.change(usernameInput, { target: { value: 'TestUser' } });
@@ -75,9 +73,9 @@ describe('StudentRegister', () => {
       json: async () => ({ error: 'Registration failed' }),
     });
 
-    const usernameInput = screen.getByLabelText(/Username/i);
-    const emailInput = screen.getByLabelText(/Email/i);
-    const passwordInput = screen.getByLabelText(/Password/i);
+    const usernameInput = screen.getByPlaceholderText(/Username/i);
+    const emailInput = screen.getByPlaceholderText(/Email/i);
+    const passwordInput = screen.getByPlaceholderText(/Password/i);
     const submitButton = screen.getByRole('button', { name: /Register/i });
 
     fireEvent.change(usernameInput, { target: { value: 'TestUser' } });

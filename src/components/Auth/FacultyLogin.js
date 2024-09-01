@@ -7,6 +7,7 @@
  */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 
 function FacultyLogin() {
   const [email, setEmail] = useState('');
@@ -87,13 +88,22 @@ function FacultyLogin() {
     maxWidth: '300px',
   };
 
-  const inputStyle = {
-    width: '100%',
-    padding: '12px',
+  const inputWrapperStyle = {
+    display: 'flex',
+    alignItems: 'center',
     marginBottom: '10px',
     border: '1px solid #ddd',
     borderRadius: '4px',
-    fontSize: '14px',
+    padding: '5px',
+    boxSizing: 'border-box'
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '12px',
+    border: 'none',
+    boxSizing: 'border-box',
+    fontSize: '14px'
   };
 
   const buttonStyle = {
@@ -124,22 +134,28 @@ function FacultyLogin() {
           <div style={formStyle}>
             <h2>Sign in</h2>
             <form onSubmit={handleLogin}>
-              <input
-                type="email"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                style={inputStyle}
-              />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                style={inputStyle}
-              />
+              <div style={inputWrapperStyle}>
+                <FaEnvelope style={{ marginRight: '10px', fontSize: '20px' }} />
+                <input
+                  type="email"
+                  placeholder="Email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  style={inputStyle}
+                />
+              </div>
+              <div style={inputWrapperStyle}>
+                <FaLock style={{ marginRight: '10px', fontSize: '20px' }} />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  style={inputStyle}
+                />
+              </div>
               <button
                 type="submit"
                 style={buttonStyle}
@@ -154,7 +170,6 @@ function FacultyLogin() {
                 Sign up
               </span>
             </p>
-           
           </div>
         </div>
       </div>

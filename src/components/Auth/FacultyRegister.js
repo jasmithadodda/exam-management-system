@@ -8,8 +8,19 @@ function FacultyRegister() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
+  // Password validation function
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (!validatePassword(password)) {
+      setMessage('Password must be at least 6 characters long, include 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.');
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:5000/faculty-register', {
@@ -110,7 +121,7 @@ function FacultyRegister() {
     <div style={containerStyle}>
       <div style={cardStyle}>
         <div style={leftSectionStyle}>
-        <h1>Empower Your Teaching Journey</h1>
+          <h1>Empower Your Teaching Journey</h1>
           <p>Already have an account? <span style={linkStyle} onClick={() => navigate('/faculty-login')}>Sign In</span></p>
         </div>
         <div style={rightSectionStyle}>

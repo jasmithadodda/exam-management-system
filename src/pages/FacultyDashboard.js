@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MdEdit, MdDelete, MdDownload, MdSend, MdCancel, MdExitToApp } from 'react-icons/md'; // Importing icons
 import '../Styles/Fdashboard.css';
 
 function FacultyDashboard() {
-  const [activeTab, setActiveTab] = useState(''); // State to manage active tab
-  const [showCreateForm, setShowCreateForm] = useState(false); // State to control form visibility
-  const [assignments, setAssignments] = useState([]); // State to store fetched assignments
-  const [editingAssignment, setEditingAssignment] = useState(null); // State to manage editing assignment
-  const [submissions, setSubmissions] = useState([]); // State to store submissions
+  const [activeTab, setActiveTab] = useState('');
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [assignments, setAssignments] = useState([]);
+  const [editingAssignment, setEditingAssignment] = useState(null);
+  const [submissions, setSubmissions] = useState([]);
   const [question, setQuestion] = useState('');
   const [deadline, setDeadline] = useState('');
-  const [message, setMessage] = useState(''); // State to manage response messages
-  const [examSchedules, setExamSchedules] = useState([]); // State to store exam schedules
-  const [courseName, setCourseName] = useState(''); // State for course name input
-  const [examDate, setExamDate] = useState(''); // State for exam date input
+  const [message, setMessage] = useState('');
+  const [examSchedules, setExamSchedules] = useState([]);
+  const [courseName, setCourseName] = useState('');
+  const [examDate, setExamDate] = useState('');
   const [examTime, setExamTime] = useState('');
-  const [searchTerm, setSearchTerm] = useState(''); // State for search input
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const navigate = useNavigate(); // Initialize navigate for redirection
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (activeTab === 'viewAssignments') {
-      fetchAssignments(); // Fetch assignments when "View Assignments" is active
+      fetchAssignments();
     } else if (activeTab === 'submissions') {
-      fetchSubmissions(); // Fetch submissions when "Submissions" tab is active
+      fetchSubmissions();
     } else if (activeTab === 'examSchedule') {
-      fetchExamSchedules(); // Fetch exam schedules when "Exam Schedule" tab is active
+      fetchExamSchedules();
     }
   }, [activeTab]);
 
@@ -84,11 +85,10 @@ function FacultyDashboard() {
       const data = await response.json();
       if (response.ok) {
         setMessage('Assignment created successfully!');
-        // Clear form after submission
         setQuestion('');
         setDeadline('');
-        setShowCreateForm(false); // Hide form after submission
-        fetchAssignments(); // Refresh assignments list
+        setShowCreateForm(false);
+        fetchAssignments();
       } else {
         setMessage(data.error || 'Error creating assignment.');
       }
@@ -101,12 +101,11 @@ function FacultyDashboard() {
   const handleEditAssignment = (assignment) => {
     setEditingAssignment(assignment);
     setQuestion(assignment.question);
-    setDeadline(assignment.deadline.split('T')[0]); // Format date for input
+    setDeadline(assignment.deadline.split('T')[0]);
   };
 
   const handleUpdateAssignment = async (e) => {
     e.preventDefault();
-
     try {
       const response = await fetch(`http://localhost:5000/assignments/${editingAssignment._id}`, {
         method: 'PUT',
@@ -115,15 +114,13 @@ function FacultyDashboard() {
         },
         body: JSON.stringify({ question, deadline }),
       });
-
       const data = await response.json();
-
       if (response.ok) {
         setMessage('Assignment updated successfully!');
         setEditingAssignment(null);
         setQuestion('');
         setDeadline('');
-        fetchAssignments(); // Refresh assignments list
+        fetchAssignments();
       } else {
         setMessage(data.error || 'Error updating assignment.');
       }
@@ -141,7 +138,7 @@ function FacultyDashboard() {
       const data = await response.json();
       if (response.ok) {
         setMessage('Assignment deleted successfully!');
-        fetchAssignments(); // Refresh assignments list
+        fetchAssignments();
       } else {
         setMessage(data.error || 'Error deleting assignment.');
       }
@@ -155,7 +152,6 @@ function FacultyDashboard() {
     try {
       const response = await fetch(`http://localhost:5000/download/${filename}`);
       if (response.ok) {
-        // Create a link element to trigger the file download
         const blob = await response.blob();
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -187,11 +183,10 @@ function FacultyDashboard() {
       const data = await response.json();
       if (response.ok) {
         setMessage('Exam schedule created successfully!');
-        // Clear form after submission
         setCourseName('');
         setExamDate('');
         setExamTime('');
-        fetchExamSchedules(); // Refresh exam schedules list
+        fetchExamSchedules();
       } else {
         setMessage(data.error || 'Error creating exam schedule.');
       }
@@ -202,13 +197,10 @@ function FacultyDashboard() {
   };
 
   const handleLogout = () => {
-    // Clear session storage or any user-related data here
-    // localStorage.removeItem('token'); // Example if using tokens
-    setActiveTab(''); // Reset active tab
-    navigate('/'); // Redirect to home page
+    setActiveTab('');
+    navigate('/');
   };
 
-  // Filter assignments based on the search term
   const filteredAssignments = assignments.filter((assignment) =>
     assignment.question.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -222,36 +214,35 @@ function FacultyDashboard() {
         <aside className="dashboard-sidebar">
           <ul className="sidebar-list">
             <li
-              className="sidebar-item"
+              className={`sidebar-item ${activeTab === 'manageAssignments' ? 'active' : ''}`}
               onClick={() => setActiveTab('manageAssignments')}
             >
               Manage Assignments
             </li>
             <li
-              className="sidebar-item"
+              className={`sidebar-item ${activeTab === 'viewAssignments' ? 'active' : ''}`}
               onClick={() => setActiveTab('viewAssignments')}
             >
               View Assignments
             </li>
             <li
-              className="sidebar-item"
-              onClick={() => setActiveTab('submissions')} // Added onClick to set active tab
+              className={`sidebar-item ${activeTab === 'submissions' ? 'active' : ''}`}
+              onClick={() => setActiveTab('submissions')}
             >
               Submissions
             </li>
             <li
-              className="sidebar-item"
-              onClick={() => setActiveTab('examSchedule')} // Added onClick to set active tab
+              className={`sidebar-item ${activeTab === 'examSchedule' ? 'active' : ''}`}
+              onClick={() => setActiveTab('examSchedule')}
             >
               Exam Schedule
             </li>
-            {/* Logout Option */}
             <li
               className="sidebar-item"
-              onClick={handleLogout} // Logout handler
-              style={{ color: 'red', cursor: 'pointer' }} // Optional styling for logout
+              onClick={handleLogout}
+              style={{ color: 'red', cursor: 'pointer' }}
             >
-              Logout
+              <MdExitToApp /> Logout
             </li>
           </ul>
         </aside>
@@ -289,14 +280,18 @@ function FacultyDashboard() {
                         className="form-input"
                       />
                     </div>
-                    <button type="submit" className="form-button">Submit</button>
-                    <button
-                      type="button"
-                      onClick={() => setShowCreateForm(false)}
-                      className="form-button"
-                    >
-                      Cancel
-                    </button>
+                    <div className="form-button-group">
+                      <button type="submit" className="form-button">
+                        <MdSend /> Submit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowCreateForm(false)}
+                        className="form-button"
+                      >
+                        <MdCancel /> Cancel
+                      </button>
+                    </div>
                   </form>
                   {message && <p>{message}</p>}
                 </div>
@@ -324,8 +319,12 @@ function FacultyDashboard() {
                       <p>Question: {assignment.question}</p>
                       <p>Deadline: {new Date(assignment.deadline).toLocaleDateString()}</p>
                       <div className="form-button-group">
-                        <button onClick={() => handleEditAssignment(assignment)}>Edit</button>
-                        <button onClick={() => handleDeleteAssignment(assignment._id)}>Delete</button>
+                        <button onClick={() => handleEditAssignment(assignment)}>
+                          <MdEdit /> {/* Edit icon */}
+                        </button>
+                        <button onClick={() => handleDeleteAssignment(assignment._id)}>
+                          <MdDelete /> {/* Delete icon */}
+                        </button>
                       </div>
                     </li>
                   ))}
@@ -356,8 +355,12 @@ function FacultyDashboard() {
                       />
                     </div>
                     <div className="form-button-group">
-                      <button type="submit" className="form-button">Update</button>
-                      <button onClick={() => setEditingAssignment(null)} className="form-button">Cancel</button>
+                      <button type="submit" className="form-button">
+                        <MdSend /> Update
+                      </button>
+                      <button onClick={() => setEditingAssignment(null)} className="form-button">
+                        <MdCancel /> Cancel
+                      </button>
                     </div>
                   </form>
                   {message && <p>{message}</p>}
@@ -376,7 +379,10 @@ function FacultyDashboard() {
                     <li key={index}>
                       <p>{filename}</p>
                       <div className="form-button-group">
-                        <button onClick={() => handleDownloadFile(filename)}>Download</button>
+                        <button onClick={() => handleDownloadFile(filename)}>
+                          <MdDownload /> {/* Download icon */}
+                          Download
+                        </button>
                       </div>
                     </li>
                   ))}

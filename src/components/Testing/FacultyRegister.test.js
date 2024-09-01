@@ -33,12 +33,33 @@ describe('FacultyRegister', () => {
     // Simulate user input
     fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'testuser' } });
     fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'Password1!' } });
 
     // Verify input values
     expect(screen.getByPlaceholderText('Username')).toHaveValue('testuser');
     expect(screen.getByPlaceholderText('Email')).toHaveValue('test@example.com');
-    expect(screen.getByPlaceholderText('Password')).toHaveValue('password123');
+    expect(screen.getByPlaceholderText('Password')).toHaveValue('Password1!');
+  });
+
+  test('displays error message for invalid password', async () => {
+    render(
+      <MemoryRouter>
+        <FacultyRegister />
+      </MemoryRouter>
+    );
+
+    // Simulate user input with invalid password
+    fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'testuser' } });
+    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password' } }); // Invalid password
+
+    // Simulate form submission
+    fireEvent.click(screen.getByRole('button', { name: /register/i }));
+
+    // Wait for error message to appear
+    await waitFor(() =>
+      expect(screen.getByText('Password must be at least 6 characters long, include 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.')).toBeInTheDocument()
+    );
   });
 
   test('displays error message on registration failure', async () => {
@@ -57,7 +78,7 @@ describe('FacultyRegister', () => {
     // Simulate user input
     fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'testuser' } });
     fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'Password1!' } });
 
     // Simulate form submission
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
@@ -82,7 +103,7 @@ describe('FacultyRegister', () => {
     // Simulate user input with missing fields
     fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'testuser' } });
     fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: '' } }); // Leave email empty
-    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'Password1!' } });
 
     // Simulate form submission
     fireEvent.click(screen.getByRole('button', { name: /register/i }));

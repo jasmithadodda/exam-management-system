@@ -8,11 +8,21 @@ function StudentRegister() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
+  const validatePassword = (password) => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+    return passwordRegex.test(password);
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
 
     if (!username || !email || !password) {
       setMessage('All fields are required');
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setMessage('Password must be at least 6 characters long, include 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.');
       return;
     }
 

@@ -11,6 +11,11 @@ function StudentRegister() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    if (!username || !email || !password) {
+      setMessage('All fields are required');
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:5000/student-register', {
         method: 'POST',
@@ -91,11 +96,8 @@ function StudentRegister() {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-    fontSize: '16px'
-  };
-
-  const buttonHoverStyle = {
-    backgroundColor: '#357ABD'
+    fontSize: '16px',
+    transition: 'background-color 0.3s'
   };
 
   const linkStyle = {
@@ -114,7 +116,9 @@ function StudentRegister() {
         <div style={rightSectionStyle}>
           <h2>Register</h2>
           <form onSubmit={handleRegister} style={formStyle}>
+            <label htmlFor="username">Username</label>
             <input
+              id="username"
               type="text"
               placeholder="Username"
               value={username}
@@ -122,7 +126,9 @@ function StudentRegister() {
               required
               style={inputStyle}
             />
+            <label htmlFor="email">Email</label>
             <input
+              id="email"
               type="email"
               placeholder="Email"
               value={email}
@@ -130,7 +136,9 @@ function StudentRegister() {
               required
               style={inputStyle}
             />
+            <label htmlFor="password">Password</label>
             <input
+              id="password"
               type="password"
               placeholder="Password"
               value={password}
@@ -141,8 +149,8 @@ function StudentRegister() {
             <button
               type="submit"
               style={buttonStyle}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = buttonHoverStyle.backgroundColor}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = buttonStyle.backgroundColor}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#357ABD'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#4a90e2'}
             >
               Register
             </button>

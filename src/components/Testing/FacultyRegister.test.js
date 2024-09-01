@@ -28,7 +28,7 @@ describe('FacultyRegister', () => {
     expect(screen.getByPlaceholderText('Username')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
-    expect(screen.getByText('Register')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /register/i })).toBeInTheDocument();
 
     // Simulate user input
     fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'testuser' } });
@@ -41,7 +41,7 @@ describe('FacultyRegister', () => {
     expect(screen.getByPlaceholderText('Password')).toHaveValue('password123');
   });
 
- test('displays error message on registration failure', async () => {
+  test('displays error message on registration failure', async () => {
     // Mock fetch response for failed registration
     global.fetch.mockResolvedValueOnce({
       ok: false,
@@ -60,7 +60,7 @@ describe('FacultyRegister', () => {
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password123' } });
 
     // Simulate form submission
-    fireEvent.click(screen.getByText('Register'));
+    fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
     // Wait for error message to appear
     await waitFor(() => expect(screen.getByText('Registration failed')).toBeInTheDocument());
@@ -70,7 +70,7 @@ describe('FacultyRegister', () => {
     // Mock fetch response for failed registration due to validation
     global.fetch.mockResolvedValueOnce({
       ok: false,
-      json: async () => ({ error: 'Incomplete fields' }),
+      json: async () => ({ error: 'All fields are required' }),
     });
 
     render(
@@ -85,9 +85,9 @@ describe('FacultyRegister', () => {
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password123' } });
 
     // Simulate form submission
-    fireEvent.click(screen.getByText('Register'));
+    fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
     // Wait for error message to appear
-    await waitFor(() => expect(screen.getByText('Incomplete fields')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('All fields are required')).toBeInTheDocument());
   });
 });

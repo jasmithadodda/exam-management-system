@@ -25,16 +25,16 @@ describe('FacultyLogin', () => {
     );
 
     // Check if the form elements are rendered
-    expect(screen.getByPlaceholderText('Email')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Email address')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Password')).toBeInTheDocument();
-    expect(screen.getByText('Login')).toBeInTheDocument();
+    expect(screen.getByText('SIGN IN')).toBeInTheDocument();
 
     // Simulate user input
-    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'test@example.com' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password123' } });
 
     // Verify input values
-    expect(screen.getByPlaceholderText('Email')).toHaveValue('test@example.com');
+    expect(screen.getByPlaceholderText('Email address')).toHaveValue('test@example.com');
     expect(screen.getByPlaceholderText('Password')).toHaveValue('password123');
   });
 
@@ -49,7 +49,7 @@ describe('FacultyLogin', () => {
     );
 
     // Simulate clicking the registration link
-    fireEvent.click(screen.getByText(/click here to register/i));
+    fireEvent.click(screen.getByText(/Sign up/i));
 
     // Verify navigation
     expect(navigate).toHaveBeenCalledWith('/faculty-register');
@@ -72,11 +72,11 @@ describe('FacultyLogin', () => {
     );
 
     // Simulate user input
-    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'test@example.com' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password123' } });
 
     // Simulate form submission
-    fireEvent.click(screen.getByText('Login'));
+    fireEvent.click(screen.getByText('SIGN IN'));
 
     // Wait for navigation to occur
     await waitFor(() => expect(navigate).toHaveBeenCalledWith('/faculty-dashboard'));
@@ -99,11 +99,11 @@ describe('FacultyLogin', () => {
     );
 
     // Simulate user input
-    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'wrong@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'wrong@example.com' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'wrongpassword' } });
 
     // Simulate form submission
-    fireEvent.click(screen.getByText('Login'));
+    fireEvent.click(screen.getByText('SIGN IN'));
 
     // Wait for error message to appear
     await waitFor(() => expect(screen.getByText('Invalid credentials')).toBeInTheDocument());
@@ -126,11 +126,11 @@ describe('FacultyLogin', () => {
     );
 
     // Simulate user input with correct email and incorrect password
-    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'test@example.com' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'wrongpassword' } });
 
     // Simulate form submission
-    fireEvent.click(screen.getByText('Login'));
+    fireEvent.click(screen.getByText('SIGN IN'));
 
     // Wait for the error message to appear
     await waitFor(() => expect(screen.getByText('Incorrect password')).toBeInTheDocument());
@@ -153,11 +153,11 @@ describe('FacultyLogin', () => {
     );
 
     // Simulate user input with incorrect email and correct password
-    fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'wrong@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText('Email address'), { target: { value: 'wrong@example.com' } });
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password123' } });
 
     // Simulate form submission
-    fireEvent.click(screen.getByText('Login'));
+    fireEvent.click(screen.getByText('SIGN IN'));
 
     // Wait for the error message to appear
     await waitFor(() => expect(screen.getByText('Incorrect email')).toBeInTheDocument());
